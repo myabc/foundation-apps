@@ -6,8 +6,6 @@ title: Angular
 
 <h2>AngularJS</h2>
 <h3 class="subheader">Foundation uses AngularJS in tons of neat ways, from dynamic routing to component directives. Learn about our AngularJS integration here.</h3>
-
-
 <hr>
 <h3>Gulp Tasks</h3>
 
@@ -238,7 +236,7 @@ url: inbox/:id
 <p>Foundation has some great helpers that foster better interaction between elements.</p>
 
 <strong>zf-close</strong>
-<p><code>zf-close</code> looks for a parent element that has the <code>zf-closeable</code> tag on it. This tag is added automatically for all directives that can be closed with <code>zf-close</code>. When clicked, the directive will send a message via the FoundationApi to close its parent <code>zf-closeable</code> element.</p>
+<p><code>zf-close</code> looks for a parent element that has the <code>zf-closable</code> tag on it. This tag is added automatically for all directives that can be closed with <code>zf-close</code>. When clicked, the directive will send a message via the FoundationApi to close its parent <code>zf-closable</code> element.</p>
 
 <hljs>
 <zf-modal id="pageModal">
@@ -246,7 +244,7 @@ url: inbox/:id
 </zf-modal>
 </hljs>
 
-<p class="lead">Note that you can specify the ID of a specific closeable directive in order to close it remotely (whether it's a parent, child, or has any other relationship to the closeable directive).</p>
+<p class="lead">Note that you can specify the ID of a specific closable directive in order to close it remotely (whether it's a parent, child, or has any other relationship to the closable directive).</p>
 
 <hljs>
 <a href="#" zf-close="pageModal">&times;</a>
@@ -297,7 +295,7 @@ url: inbox/:id
 <p>Sometimes, it's necessary to trigger a modal after some piece logic was satisfied. Whether the user scrolled past a certain point or some other action happened. Here's how to open our modal remotely:</p>
 
 <hljs>
-foundationApi.publish('my-modal', 'open');
+FoundationApi.publish('my-modal', 'open');
 </hljs>
 
 <p>Make sure to include FoundationApi as a dependency in the controller or wherever else you want to use it. The best bet to hooking into various directives is to check the code and see what each directive subscribes to.</p>
@@ -313,3 +311,17 @@ foundationApi.publish('my-modal', 'open');
   <li>the <code>app.js</code> file which bootstraps the application can be fully bypassed so you can build your own. Make sure to use proper dependency injection for the modules you DO want to use.</li>
   <li>if you install the repo as part of bower, make sure to reference all the right files in your build process in your Gulpfile</li>
 </ul>
+
+<h3>Using Foundation as a dependency</h3>
+<p>As of v1.1, Foundation for Apps will/does support being included via dependency injection. If you're building your own application or want to include FA in an existing application, here's what you need to know:</p>
+
+<ol>
+<li>FA depends on <code>foundation.core</code> which includes the <code>FoundationApi</code> service as well as several different factories/services that help it chug along. Most notably, it includes a configuration that imports SASS media queries. This is necessary for Interchange.</li>
+<li>the <code>foundation</code> module imports all of the directives, common directives, and <code>foundation.core</code>.</li>
+<li>
+<code>foundation.dynamicRouting</code> is a module that sets up the <code>ui.router</code> routing.</li>
+<li>
+<code>foundation.dynamicRouting.animations</code> is an additional module for <code>foundation.dynamicRouting</code> which enables view animation</li>
+</ol>
+
+<p>When creating a custom <code>app.js</code>, the only necessary configuration is setting up the <code>$urlProvider</code> and <code>$locationProvider</code>. The sample configuration is included in the <code>app.js</code> in the <code>js/angular</code> folder.</p>
